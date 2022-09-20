@@ -1,0 +1,15 @@
+=================================================================
+==45852==ERROR: AddressSanitizer: SEGV on unknown address (pc 0x0000004cbce5 bp 0x7f91a50fee60 sp 0x7f91a50fed00 T1)
+==45852==The signal is caused by a READ memory access.
+==45852==Hint: this fault was caused by a dereference of a high value address (see register values below).  Dissassemble the provided pc to learn which register was used.
+    #0 0x4cbce5  (/home/ubuntu/Documents/freemodbus/demo/LINUXTCP/tcpmodbus+0x4cbce5)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/home/ubuntu/Documents/freemodbus/demo/LINUXTCP/tcpmodbus+0x4cbce5)
+Thread T1 created by T0 here:
+    #0 0x480dfa in pthread_create (/home/ubuntu/Documents/freemodbus/demo/LINUXTCP/tcpmodbus+0x480dfa)
+    #1 0x4c6264 in bCreatePollingThread /home/ubuntu/Documents/freemodbus/demo/LINUXTCP/demo.c:169:13
+    #2 0x4c6264 in main /home/ubuntu/Documents/freemodbus/demo/LINUXTCP/demo.c:92:21
+    #3 0x7f91a871d082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+
+==45852==ABORTING
