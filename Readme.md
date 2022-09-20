@@ -3,7 +3,7 @@
 This tool is written in Python, mainly focus on Address sanitizer output. For Now, the types of vulnerabilities based on Address sanitizer output supported by the tool for identification are following:
 
 | Name                          |
-| ----------------------------- |
+|-------------------------------|
 | heap-buffer-overflow          |
 | stack-buffer-overflow         |
 | dynamic-stack-buffer-overflow |
@@ -13,6 +13,7 @@ This tool is written in Python, mainly focus on Address sanitizer output. For No
 | out-of-memory                 |
 | alloc-dealloc-mismatch        |
 | allocation-size-too-big       |
+| bad-free                      |
 
 In the future, we will support more vulnerabilities in ASAN and vulnerabilities in other sanitizers (such as MASN).
 
