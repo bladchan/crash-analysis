@@ -34,5 +34,10 @@ if __name__ == '__main__':
         content = fp.read()
 
     asan.add(content, 'demo5.txt')
+
+    with open('demo6.txt') as fp:
+        content = fp.read()
+
+    asan.add(content, 'demo6.txt')
     asan.info()
     asan.save()

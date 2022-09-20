@@ -27,6 +27,7 @@ class Asan(object):
             "out-of-memory": self.__parse_alloc,
             "alloc-dealloc-mismatch": self.__parse_alloc,
             "allocation-size-too-big": self.__parse_alloc,
+            "bad-free": self.__parse_alloc,
             "undefined": self.__parse_undefined,
         }
         # ... add other bugs
@@ -161,6 +162,10 @@ class Asan(object):
 
             error_type = AllocType.allocation_size_too_big
 
+        elif name == "bad-free":
+
+            error_type = AllocType.bad_free
+
         assert error_type != -1
 
         alloc_object = Alloc(error_type, text, fname)
@@ -203,7 +208,10 @@ class Asan(object):
 
     def info(self):
 
+        print_flag = False
+
         if len(self.overflow) != 0:
+            print_flag = True
             idx = 0
 
             print(f"{color.PURPLE}Different overflow: {len(self.overflow)}{color.END}")
@@ -222,10 +230,14 @@ class Asan(object):
 
                 idx += 1
 
-        print("*" * 100)
-        print("*" * 100)
+        if print_flag:
+            print("*" * 100)
+            print("*" * 100)
+
+        print_flag = False
 
         if len(self.segv) != 0:
+            print_flag = True
             idx = 0
 
             print(f"{color.PURPLE}Different SEGV: {len(self.segv)}{color.END}")
@@ -242,10 +254,14 @@ class Asan(object):
 
                 idx += 1
 
-        print("*" * 100)
-        print("*" * 100)
+        if print_flag:
+            print("*" * 100)
+            print("*" * 100)
+
+        print_flag = False
 
         if len(self.alloc) != 0:
+            print_flag = True
             idx = 0
 
             print(f"{color.PURPLE}Different Alloc: {len(self.alloc)}{color.END}")
@@ -262,8 +278,9 @@ class Asan(object):
 
                 idx += 1
 
-        print("*" * 100)
-        print("*" * 100)
+        if print_flag:
+            print("*" * 100)
+            print("*" * 100)
 
     def save(self):
 

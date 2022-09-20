@@ -3,7 +3,8 @@ import difflib
 from texttable import Texttable
 
 # regex = r'#([0-9]+) 0x[0-9|a-f]+ in (.*) ([/|.|(].*)'
-regex = r'#([0-9]+) 0x[0-9|a-f]+ ([in \S+]*) ([/|.|(].*)'
+# regex = r'#([0-9]+) 0x[0-9|a-f]+ ([in \S+]*) ([/|.|(].*)'
+regex = r'#([0-9]+) 0x[0-9|a-f]+ ([in \S+]*) (\S+)'
 
 
 class Callstack(object):
@@ -11,6 +12,9 @@ class Callstack(object):
         self.stack = []
         self.size = 0
         pre_frame = -1
+
+        if text == "":
+            return
 
         result = re.findall(regex, text)
         assert len(result) != 0

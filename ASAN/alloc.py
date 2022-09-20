@@ -7,6 +7,7 @@ class AllocType(Enum):
     out_of_memory = 1
     alloc_dealloc_mismatch = 2
     allocation_size_too_big = 3
+    bad_free = 4
 
 
 class Alloc(object):

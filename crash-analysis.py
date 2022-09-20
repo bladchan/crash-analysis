@@ -73,12 +73,12 @@ if __name__ == '__main__':
                 if set_file == -1:
                     with open(file_path, "r") as fp:
                         ret = subprocess.run(args, stdin=fp, stdout=subprocess.PIPE,
-                                             stderr=subprocess.PIPE, encoding="utf-8", cwd=work_path)
+                                             stderr=subprocess.PIPE, encoding="cp850", cwd=work_path)
 
                 else:
                     args[set_file] = file_path
                     ret = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                         encoding="utf-8", cwd=work_path)
+                                         encoding="cp850", cwd=work_path)
 
                 if ret.returncode == 0:
                     print(f"File {file_path} seems not to lead crashing?")
@@ -111,18 +111,18 @@ if __name__ == '__main__':
 
                 # start server
                 server = subprocess.Popen(args=server_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                          encoding="utf-8", cwd=work_path)
+                                          encoding="cp850", cwd=work_path)
                 time.sleep(0.2)
 
                 # replay the network packet
                 if set_file == -1:
                     with open(file_path, "r") as fp:
                         client = subprocess.Popen(args=client_cmd, stdin=fp, stdout=subprocess.PIPE,
-                                                  stderr=subprocess.PIPE, encoding="utf-8", cwd=work_path)
+                                                  stderr=subprocess.PIPE, encoding="cp850", cwd=work_path)
                 else:
                     client_cmd[set_file] = file_path
                     client = subprocess.Popen(args=client_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                              encoding="utf-8", cwd=work_path)
+                                              encoding="cp850", cwd=work_path)
                 time.sleep(1)
 
                 # check if server crashed (timeout = 2s)
