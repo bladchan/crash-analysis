@@ -22,6 +22,8 @@ errors_name = {
         "use-after-poison",                 # --> Class: uax
         "bad-free",                         # --> Class: alloc
         "allocation-size-too-big",          # --> Class: alloc
+        "unknown-crash",                    # --> Class: Unknown_crash (in others.py)
+        "FPE",                              # --> Class: FPE (floating point exception / in others.py)
     ]
 }
 

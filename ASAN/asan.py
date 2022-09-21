@@ -2,6 +2,7 @@ import datetime
 import os
 
 from ASAN.alloc import AllocType, Alloc
+from ASAN.others import Unknown_crash, FPE
 from ASAN.overflow import Overflow, OverflowType
 from ASAN.segv import Segv
 from debug import color
@@ -16,6 +17,7 @@ class Asan(object):
         self.uax = []
         self.alloc = []
         self.undefined = []
+        self.others = []
 
         self.parseFunctions = {
             "heap-buffer-overflow": self.__parse_overflow,
@@ -29,6 +31,8 @@ class Asan(object):
             "allocation-size-too-big": self.__parse_alloc,
             "bad-free": self.__parse_alloc,
             "undefined": self.__parse_undefined,
+            "unknown-crash": self.__parse_others,
+            "FPE": self.__parse_others,
         }
         # ... add other bugs
 
@@ -56,6 +60,11 @@ class Asan(object):
 
         while i >= 0:
             item = objects_list[i]
+
+            if type(item) is not type(obj):
+                i -= 1
+                continue
+
             flag = item.compare(obj)
 
             if flag == 0:
@@ -182,6 +191,25 @@ class Asan(object):
         undefined_object = Undefined(text, fname)
         self.undefined.append(undefined_object)
 
+    def __parse_others(self, name, text, fname):
+
+        obj = None
+
+        if name == "unknown-crash":
+
+            obj = Unknown_crash(text, fname)
+
+        elif name == "FPE":
+
+            obj = FPE(text, fname)
+
+        assert obj
+
+        if len(self.others) == 0:
+            self.others.append(obj)
+        else:
+            self.__handle_new_object(self.others, obj, fname)
+
     def print_info(self, obj, padding):
 
         print(f"{padding}Call stack: {obj.callstack}")
@@ -282,6 +310,35 @@ class Asan(object):
             print("*" * 100)
             print("*" * 100)
 
+        print_flag = False
+
+        if len(self.others) != 0:
+            print_flag = True
+            idx = 0
+
+            print(f"{color.PURPLE}Others: {len(self.others)}{color.END}")
+            while idx < len(self.others):
+
+                obj = self.others[idx]
+
+                print(f"No.{idx + 1} ==> Type: {color.RED}{obj.__class__.__name__}{color.END}")
+
+                if obj.__class__.__name__ == 'Unknown_crash':
+                    print(padding + f"Operate: {color.BLUE}" + ("READ" if overflow_obj.operation == 0 else "WRITE")
+                          + f"{color.END}")
+
+                padding = " " * len(f"No.{idx + 1} ==> ")
+                self.print_info(obj, padding)
+
+                if idx != len(self.others) - 1:
+                    print("-" * 100)
+
+                idx += 1
+
+        if print_flag:
+            print("*" * 100)
+            print("*" * 100)
+
     def save(self):
 
         save_path = "output_asan_" + str(int(datetime.datetime.now().timestamp()))
@@ -292,7 +349,8 @@ class Asan(object):
             "SEGV": self.segv,
             "Uax": self.uax,
             "Alloc": self.alloc,
-            "Undefined": self.undefined
+            "Undefined": self.undefined,
+            "Others": self.others,
         }
 
         for name in error_type.keys():
@@ -314,6 +372,10 @@ class Asan(object):
                     dir_n = f"#{idx}-{obj.error_type.name}_overflow"
                 elif obj.__class__.__name__ == 'Undefined':
                     dir_n = f"#{idx}-undefined"
+                elif obj.__class__.__name__ == 'FPE':
+                    dir_n = f"#{idx}-FPE"
+                elif obj.__class__.__name__ == 'Unknown_crash':
+                    dir_n = f"#{idx}-unknown-crash"
 
                 dir_n = os.path.join(sub_dir, dir_n)
                 os.mkdir(dir_n)
