@@ -5,6 +5,7 @@ from ASAN.alloc import AllocType, Alloc
 from ASAN.others import Unknown_crash, FPE
 from ASAN.overflow import Overflow, OverflowType
 from ASAN.segv import Segv
+from ASAN.uax import UaxType, Uax
 from debug import color
 from dict import errors_name
 from undefined import Undefined
@@ -33,6 +34,7 @@ class Asan(object):
             "undefined": self.__parse_undefined,
             "unknown-crash": self.__parse_others,
             "FPE": self.__parse_others,
+            "heap-use-after-free": self.__parse_uax,
         }
         # ... add other bugs
 
@@ -184,6 +186,23 @@ class Asan(object):
         else:
             self.__handle_new_object(self.alloc, alloc_object, fname)
 
+    def __parse_uax(self, name, text, fname):
+
+        error_type = -1
+
+        if name == 'heap-use-after-free':
+
+            error_type = UaxType.heap_use_after_free
+
+        assert error_type != -1
+
+        uax_obj = Uax(error_type, text, fname)
+
+        if len(self.uax) == 0:
+            self.uax.append(uax_obj)
+        else:
+            self.__handle_new_object(self.uax, uax_obj, fname)
+
     def __parse_undefined(self, name, text, fname):
 
         assert name == 'undefined'
@@ -299,6 +318,7 @@ class Asan(object):
 
                 print(f"No.{idx + 1} ==> Type: {color.RED}{alloc_obj.error_type.name}{color.END}")
                 padding = " " * len(f"No.{idx + 1} ==> ")
+
                 self.print_info(alloc_obj, padding)
 
                 if idx != len(self.alloc) - 1:
@@ -312,6 +332,33 @@ class Asan(object):
 
         print_flag = False
 
+        if len(self.uax) != 0:
+            print_flag = True
+            idx = 0
+
+            print(f"{color.PURPLE}Different User-after-x: {len(self.uax)}{color.END}")
+
+            while idx < len(self.uax):
+
+                uax_obj = self.uax[idx]
+
+                print(f"No.{idx + 1} ==> Type: {color.RED}{uax_obj.error_type.name}{color.END}")
+
+                padding = " " * len(f"No.{idx + 1} ==> ")
+                print(padding + f"Operate: {color.BLUE}" + ("READ" if uax_obj.operation == 0 else "WRITE")
+                      + f"{color.END}")
+
+                self.print_info(uax_obj, padding)
+
+                if idx != len(self.uax) - 1:
+                    print("-" * 100)
+
+                idx += 1
+
+        if print_flag:
+            print("*" * 100)
+            print("*" * 100)
+
         if len(self.others) != 0:
             print_flag = True
             idx = 0
@@ -322,9 +369,10 @@ class Asan(object):
                 obj = self.others[idx]
 
                 print(f"No.{idx + 1} ==> Type: {color.RED}{obj.__class__.__name__}{color.END}")
+                padding = " " * len(f"No.{idx + 1} ==> ")
 
                 if obj.__class__.__name__ == 'Unknown_crash':
-                    print(padding + f"Operate: {color.BLUE}" + ("READ" if overflow_obj.operation == 0 else "WRITE")
+                    print(padding + f"Operate: {color.BLUE}" + ("READ" if obj.operation == 0 else "WRITE")
                           + f"{color.END}")
 
                 padding = " " * len(f"No.{idx + 1} ==> ")
@@ -376,6 +424,8 @@ class Asan(object):
                     dir_n = f"#{idx}-FPE"
                 elif obj.__class__.__name__ == 'Unknown_crash':
                     dir_n = f"#{idx}-unknown-crash"
+                elif obj.__class__.__name__ == 'Uax':
+                    dir_n = f"#{idx}-{obj.error_type.name}"
 
                 dir_n = os.path.join(sub_dir, dir_n)
                 os.mkdir(dir_n)

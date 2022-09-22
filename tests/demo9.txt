@@ -1,0 +1,80 @@
+=================================================================
+==3064162==ERROR: AddressSanitizer: heap-use-after-free on address 0x606000000080 at pc 0x7ffa2d58ad11 bp 0x7ffe1311b2b0 sp 0x7ffe1311b2a0
+READ of size 8 at 0x606000000080 thread T0
+    #0 0x7ffa2d58ad10 in list_del lib/fy-list.h:120
+    #1 0x7ffa2d58bac2 in fy_simple_key_list_del lib/fy-parse.h:79
+    #2 0x7ffa2d58bcf6 in fy_simple_key_list_pop lib/fy-parse.h:79
+    #3 0x7ffa2d58c8e7 in fy_simple_key_vacuum_internal lib/fy-types.c:31
+    #4 0x7ffa2d58c9ad in fy_parse_simple_key_vacuum lib/fy-types.c:31
+    #5 0x7ffa2d53da2b in fy_parse_cleanup lib/fy-parse.c:842
+    #6 0x7ffa2d60ad05 in fy_document_build_internal lib/fy-doc.c:3287
+    #7 0x7ffa2d60b453 in fy_document_build_from_file lib/fy-doc.c:3320
+    #8 0x565488ffb497 in main /home/ubuntu/test/libfyaml/fuzz/test_fy_document_build_from_file.c:9
+    #9 0x7ffa2d341082 in __libc_start_main ../csu/libc-start.c:308
+    #10 0x565488ffb28d in _start (/home/ubuntu/test/libfyaml/fuzz/test_fy_document_build_from_file+0x128d)
+
+0x606000000080 is located 0 bytes inside of 64-byte region [0x606000000080,0x6060000000c0)
+freed by thread T0 here:
+    #0 0x7ffa2d84040f in __interceptor_free ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:122
+    #1 0x7ffa2d58c8db in fy_simple_key_vacuum_internal lib/fy-types.c:31
+    #2 0x7ffa2d58c9ad in fy_parse_simple_key_vacuum lib/fy-types.c:31
+    #3 0x7ffa2d53da2b in fy_parse_cleanup lib/fy-parse.c:842
+    #4 0x7ffa2d60ad05 in fy_document_build_internal lib/fy-doc.c:3287
+    #5 0x7ffa2d60b453 in fy_document_build_from_file lib/fy-doc.c:3320
+    #6 0x565488ffb497 in main /home/ubuntu/test/libfyaml/fuzz/test_fy_document_build_from_file.c:9
+    #7 0x7ffa2d341082 in __libc_start_main ../csu/libc-start.c:308
+
+previously allocated by thread T0 here:
+    #0 0x7ffa2d840808 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:144
+    #1 0x7ffa2d58c786 in fy_simple_key_alloc_simple_internal lib/fy-types.c:31
+    #2 0x7ffa2d58c951 in fy_parse_simple_key_alloc_simple lib/fy-types.c:31
+    #3 0x7ffa2d58cbbb in fy_parse_simple_key_alloc lib/fy-types.c:31
+    #4 0x7ffa2d54312e in fy_save_simple_key lib/fy-parse.c:1479
+    #5 0x7ffa2d543e8e in fy_save_simple_key_mark lib/fy-parse.c:1547
+    #6 0x7ffa2d56c8d9 in fy_fetch_plain_scalar lib/fy-parse.c:4753
+    #7 0x7ffa2d570eeb in fy_fetch_tokens lib/fy-parse.c:5022
+    #8 0x7ffa2d5719d4 in fy_scan_peek lib/fy-parse.c:5093
+    #9 0x7ffa2d5762d4 in fy_parse_internal lib/fy-parse.c:5524
+    #10 0x7ffa2d580d5b in fy_parse_private lib/fy-parse.c:6419
+    #11 0x7ffa2d63b926 in fy_document_builder_load_document lib/fy-docbuilder.c:529
+    #12 0x7ffa2d5fe963 in fy_parse_load_document_with_builder lib/fy-doc.c:1940
+    #13 0x7ffa2d5fed0b in fy_parse_load_document lib/fy-doc.c:1962
+    #14 0x7ffa2d60a70c in fy_document_build_internal lib/fy-doc.c:3242
+    #15 0x7ffa2d60b453 in fy_document_build_from_file lib/fy-doc.c:3320
+    #16 0x565488ffb497 in main /home/ubuntu/test/libfyaml/fuzz/test_fy_document_build_from_file.c:9
+    #17 0x7ffa2d341082 in __libc_start_main ../csu/libc-start.c:308
+
+SUMMARY: AddressSanitizer: heap-use-after-free lib/fy-list.h:120 in list_del
+Shadow bytes around the buggy address:
+  0x0c0c7fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c0c7fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c0c7fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c0c7fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c0c7fff8000: fa fa fa fa 00 00 00 00 00 00 00 fa fa fa fa fa
+=>0x0c0c7fff8010:[fd]fd fd fd fd fd fd fd fa fa fa fa fa fa fa fa
+  0x0c0c7fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c0c7fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==3064162==ABORTING
