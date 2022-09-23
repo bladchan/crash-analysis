@@ -2,18 +2,21 @@
 
 This tool is written in Python, mainly focus on Address sanitizer output. For Now, the types of vulnerabilities based on Address sanitizer output supported by the tool for identification are following:
 
-| Name                          |
-|-------------------------------|
-| heap-buffer-overflow          |
-| stack-buffer-overflow         |
-| dynamic-stack-buffer-overflow |
-| global-buffer-overflow        |
-| container-overflow            |
-| SEGV                          |
-| out-of-memory                 |
-| alloc-dealloc-mismatch        |
-| allocation-size-too-big       |
-| bad-free                      |
+| Name                               |
+| ---------------------------------- |
+| heap-buffer-overflow               |
+| stack-buffer-overflow              |
+| dynamic-stack-buffer-overflow      |
+| global-buffer-overflow             |
+| container-overflow                 |
+| SEGV                               |
+| out-of-memory                      |
+| alloc-dealloc-mismatch             |
+| allocation-size-too-big            |
+| bad-free                           |
+| FPE（floating pointing exception） |
+| unknown-crash                      |
+| heap-use-after-free                |
 
 In the future, we will support more vulnerabilities in ASAN and vulnerabilities in other sanitizers (such as MASN).
 
@@ -49,6 +52,8 @@ $ python3 crash-analysis.py -d crash_dir -s asan "target_prog [-options] [@@]"
 
 ```bash
 $ python ./crashes-analysis.py -d /xxx/replayable-crashes -s asan "target1 @@"
+```
+```text
 Now is process 'id:000103,sig:06,src:000000,op:havoc 1-3,rep:32'...
 Now is process 'id:000074,sig:06,src:000000+000461,op:splice 0-3,rep:4'...
 Now is process 'id:000104,sig:06,src:000000,op:havoc 1-3,rep:128'...
@@ -127,7 +132,7 @@ For network program, you can use like:
 $ python3 crash-analysis.py -d crash_dir -s asan -r "replay-tool [-options] [@@]" "network_prog [-options]"
 ```
 
-:bulb: Note that the results will saved in `output_asan_{timespace}` directory under working directory.
+:bulb: Note that the results will be saved in `output_asan_{timestamp}` directory under working directory.
 
 ## Issue
 

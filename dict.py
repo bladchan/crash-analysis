@@ -5,7 +5,7 @@ errors_name = {
         "out-of-memory",                    # --> Class: alloc
         "calloc-overflow",
         "container-overflow",               # --> Class: overflow
-        "double-free",
+        "double-free",                      # --> Class: alloc
         "dynamic-stack-buffer-overflow",    # --> Class: overflow
         "global-buffer-overflow",           # --> Class: overflow
         "heap-buffer-overflow",             # --> Class: overflow

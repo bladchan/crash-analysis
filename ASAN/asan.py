@@ -31,6 +31,7 @@ class Asan(object):
             "alloc-dealloc-mismatch": self.__parse_alloc,
             "allocation-size-too-big": self.__parse_alloc,
             "bad-free": self.__parse_alloc,
+            "double-free": self.__parse_alloc,
             "undefined": self.__parse_undefined,
             "unknown-crash": self.__parse_others,
             "FPE": self.__parse_others,
@@ -176,6 +177,10 @@ class Asan(object):
         elif name == "bad-free":
 
             error_type = AllocType.bad_free
+
+        elif name == "double-free":
+
+            error_type = AllocType.double_free
 
         assert error_type != -1
 

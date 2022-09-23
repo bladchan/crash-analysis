@@ -8,6 +8,7 @@ class AllocType(Enum):
     alloc_dealloc_mismatch = 2
     allocation_size_too_big = 3
     bad_free = 4
+    double_free = 5
 
 
 class Alloc(object):
