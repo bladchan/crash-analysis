@@ -105,7 +105,7 @@ if __name__ == '__main__':
         work_path = server_cmd[0][:server_cmd[0].rfind('/')]
 
         for root, dirs, files in os.walk(option.dir):
-            for file in files:
+            for file in sorted(files):
                 file_path = os.path.join(root, file)
                 print(f"Now is process '{file}'...")
 

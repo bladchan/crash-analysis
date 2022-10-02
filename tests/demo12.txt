@@ -1,0 +1,15 @@
+=================================================================
+==3624==ERROR: AddressSanitizer: attempting to call malloc_usable_size() for pointer which is not owned: 0x602000000018
+    #0 0x49540d in malloc_usable_size (/home/ubuntu/bin/a.out+0x49540d)
+    #1 0x41e802 in __asan::asan_malloc_usable_size(void const*, unsigned long, unsigned long) (/home/ubuntu/bin/a.out+0x41e802)
+    #2 0x4c6b0d in main /home/ubuntu/bin/bad-malloc-usable-size.cpp:10:3
+    #3 0x7f95ab216082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+    #4 0x41c31d in _start (/home/ubuntu/bin/a.out+0x41c31d)
+
+0x602000000018 is located 8 bytes inside of 16-byte region [0x602000000010,0x602000000020)
+allocated by thread T0 here:
+    #0 0x4c42dd in operator new[](unsigned long) (/home/ubuntu/bin/a.out+0x4c42dd)
+    #1 0x4c6af2 in main /home/ubuntu/bin/bad-malloc-usable-size.cpp:9:15
+
+SUMMARY: AddressSanitizer: bad-malloc_usable_size (/home/ubuntu/bin/a.out+0x49540d) in malloc_usable_size
+==3624==ABORTING

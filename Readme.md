@@ -17,6 +17,10 @@ This tool is written in Python, mainly focus on Address sanitizer output. For No
 | FPE（floating pointing exception） |
 | unknown-crash                      |
 | heap-use-after-free                |
+| double-free                        |
+| container-overflow                 |
+| bad-malloc-usable-size             |
+| calloc-overflow                    |
 
 In the future, we will support more vulnerabilities in ASAN and vulnerabilities in other sanitizers (such as MASN).
 

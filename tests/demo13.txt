@@ -1,0 +1,9 @@
+=================================================================
+==5023==ERROR: AddressSanitizer: calloc parameters overflow: count * size (-1 * 1000) cannot be represented in type size_t (thread T0)
+    #0 0x7fdffac3ba06 in __interceptor_calloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:153
+    #1 0x556efd0cf210 in main (/home/chan/test/calloc_bufferoverflow+0x1210)
+    #2 0x7fdffa960082 in __libc_start_main ../csu/libc-start.c:308
+
+==5023==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: AddressSanitizer: calloc-overflow ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:153 in __interceptor_calloc
+==5023==ABORTING

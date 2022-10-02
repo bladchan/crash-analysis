@@ -17,6 +17,7 @@ class OverflowType(Enum):
     dynamic_stack = 3
     global_buffer = 4
     container = 5
+    calloc = 6
 
 
 class Overflow(object):

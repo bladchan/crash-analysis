@@ -26,12 +26,14 @@ class Asan(object):
             "dynamic-stack-buffer-overflow": self.__parse_overflow,
             "global-buffer-overflow": self.__parse_overflow,
             "container-overflow": self.__parse_overflow,
+            "calloc-overflow": self.__parse_overflow,
             "SEGV": self.__parse_segv,
             "out-of-memory": self.__parse_alloc,
             "alloc-dealloc-mismatch": self.__parse_alloc,
             "allocation-size-too-big": self.__parse_alloc,
             "bad-free": self.__parse_alloc,
             "double-free": self.__parse_alloc,
+            "bad-malloc-usable-size": self.__parse_alloc,
             "undefined": self.__parse_undefined,
             "unknown-crash": self.__parse_others,
             "FPE": self.__parse_others,
@@ -118,6 +120,10 @@ class Asan(object):
 
             error_type = OverflowType.container
 
+        elif name == "calloc-overflow":
+
+            error_type = OverflowType.calloc
+
         assert error_type != -1
 
         overflow_obj = Overflow(error_type, text, fname)
@@ -181,6 +187,10 @@ class Asan(object):
         elif name == "double-free":
 
             error_type = AllocType.double_free
+
+        elif name == "bad-malloc-usable-size":
+
+            error_type = AllocType.bad_malloc_usable_size
 
         assert error_type != -1
 

@@ -9,6 +9,7 @@ class AllocType(Enum):
     allocation_size_too_big = 3
     bad_free = 4
     double_free = 5
+    bad_malloc_usable_size = 6
 
 
 class Alloc(object):

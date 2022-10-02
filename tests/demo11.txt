@@ -1,0 +1,50 @@
+=================================================================
+==3266==ERROR: AddressSanitizer: container-overflow on address 0x7ffe94fb0590 at pc 0x561275b88544 bp 0x7ffe94fb0380 sp 0x7ffe94fb0370
+READ of size 8 at 0x7ffe94fb0590 thread T0
+    #0 0x561275b88543 in main /home/ubuntu/bin/container-overflow.cpp:16
+    #1 0x7fc16af75082 in __libc_start_main ../csu/libc-start.c:308
+    #2 0x561275b8861d in _start (/home/ubuntu/bin/a.out+0x161d)
+
+Address 0x7ffe94fb0590 is located in stack of thread T0 at offset 512 in frame
+    #0 0x561275b882df in main /home/ubuntu/bin/container-overflow.cpp:10
+
+  This frame has 1 object(s):
+    [32, 832) 't' (line 11) <== Memory access at offset 512 is inside this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+HINT: if you don't care about these errors you may set ASAN_OPTIONS=detect_container_overflow=0.
+If you suspect a false positive see also: https://github.com/google/sanitizers/wiki/AddressSanitizerContainerOverflow.
+SUMMARY: AddressSanitizer: container-overflow /home/ubuntu/bin/container-overflow.cpp:16 in main
+Shadow bytes around the buggy address:
+  0x1000529ee060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1000529ee070: 00 00 f1 f1 f1 f1 00 00 00 00 00 00 00 00 00 00
+  0x1000529ee080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1000529ee090: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1000529ee0a0: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
+=>0x1000529ee0b0: fc fc[fc]fc fc fc fc fc fc fc fc fc fc fc fc fc
+  0x1000529ee0c0: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+  0x1000529ee0d0: fc fc fc fc fc fc fc fc fc fc f3 f3 f3 f3 f3 f3
+  0x1000529ee0e0: f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 00 00 00 00 00 00
+  0x1000529ee0f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1000529ee100: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==3266==ABORTING
