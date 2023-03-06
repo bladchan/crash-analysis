@@ -1,0 +1,8 @@
+=================================================================
+==34655==ERROR: AddressSanitizer: requested allocation size 0xfffffffc20 (0x10000000c20 after adjustments for alignment, red zones etc.) exceeds maximum supported size of 0x10000000000 (thread T0)
+    #0 0x7fb6ce3c4587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x5576538d4d86 in __gnu_cxx::new_allocator<LIEF::DEX::Method*>::allocate(unsigned long, void const*) /usr/include/c++/9/ext/new_allocator.h:114
+
+==34655==HINT: if you don't care about these errors you may set allocator_may_return_null=1
+SUMMARY: AddressSanitizer: allocation-size-too-big ../../../../src/libsanitizer/asan/asan_new_delete.cc:104 in operator new(unsigned long)
+==34655==ABORTING

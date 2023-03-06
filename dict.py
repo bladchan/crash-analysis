@@ -10,15 +10,15 @@ errors_name = {
         "global-buffer-overflow",           # --> Class: overflow
         "heap-buffer-overflow",             # --> Class: overflow
         "heap-use-after-free",              # --> Class: uax
-        "invalid-allocation-alignment",
-        "memcpy-param-overlap",
-        "new-delete-type-mismatch",
+        # "invalid-allocation-alignment",
+        # "memcpy-param-overlap",
+        # "new-delete-type-mismatch",
         "SEGV",                             # --> Class: segv
         "stack-buffer-overflow",            # --> Class: overflow
-        "stack-buffer-underflow",
+        "stack-buffer-underflow",           # --> Class: underflow
         "stack-use-after-return",           # --> Class: uax
         "stack-use-after-scope",            # --> Class: uax
-        "strncat-param-overlap",
+        # "strncat-param-overlap",
         "use-after-poison",                 # --> Class: uax
         "bad-free",                         # --> Class: alloc
         "allocation-size-too-big",          # --> Class: alloc

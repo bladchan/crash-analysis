@@ -1,0 +1,89 @@
+==44611==ERROR: AddressSanitizer failed to allocate 0xb1b1e000 (-1313742848) bytes of LargeMmapAllocator (error code: 12)
+==44611==Process memory map follows:
+	0x1ffff000-0x24000000	
+	0x24000000-0x28000000	
+	0x28000000-0x40000000	
+	0x565c2000-0x5712e000	/home/ubuntu/interger_poc/binutils-2.28.1/afl_ASAN32/bin/objdump
+	0x5712f000-0x57198000	/home/ubuntu/interger_poc/binutils-2.28.1/afl_ASAN32/bin/objdump
+	0x57198000-0x571ed000	/home/ubuntu/interger_poc/binutils-2.28.1/afl_ASAN32/bin/objdump
+	0x571ed000-0x571f5000	
+	0xf3700000-0xf3800000	
+	0xf3900000-0xf3a00000	
+	0xf3b00000-0xf3c00000	
+	0xf3d00000-0xf3e00000	
+	0xf3f00000-0xf4000000	
+	0xf4100000-0xf4200000	
+	0xf4300000-0xf4400000	
+	0xf4500000-0xf4600000	
+	0xf4700000-0xf4800000	
+	0xf4900000-0xf4a00000	
+	0xf4b00000-0xf4c00000	
+	0xf4d00000-0xf4e00000	
+	0xf4f00000-0xf5000000	
+	0xf5100000-0xf5200000	
+	0xf5300000-0xf5400000	
+	0xf5500000-0xf5600000	
+	0xf5700000-0xf5800000	
+	0xf5900000-0xf5a00000	
+	0xf5b00000-0xf5d00000	/usr/lib/locale/locale-archive
+	0xf5d00000-0xf5e00000	
+	0xf5f00000-0xf6000000	
+	0xf6100000-0xf6200000	
+	0xf6300000-0xf6400000	
+	0xf6414000-0xf6428000	
+	0xf6428000-0xf642f000	/usr/lib/i386-linux-gnu/gconv/gconv-modules.cache
+	0xf642f000-0xf6431000	/usr/lib/locale/locale-archive
+	0xf6431000-0xf764e000	
+	0xf764e000-0xf766a000	/lib/i386-linux-gnu/libgcc_s.so.1
+	0xf766a000-0xf766b000	/lib/i386-linux-gnu/libgcc_s.so.1
+	0xf766b000-0xf766c000	/lib/i386-linux-gnu/libgcc_s.so.1
+	0xf766c000-0xf776c000	/lib/i386-linux-gnu/libm-2.27.so
+	0xf776c000-0xf776d000	/lib/i386-linux-gnu/libm-2.27.so
+	0xf776d000-0xf776e000	/lib/i386-linux-gnu/libm-2.27.so
+	0xf776e000-0xf7789000	/lib/i386-linux-gnu/libpthread-2.27.so
+	0xf7789000-0xf778a000	/lib/i386-linux-gnu/libpthread-2.27.so
+	0xf778a000-0xf778b000	/lib/i386-linux-gnu/libpthread-2.27.so
+	0xf778b000-0xf778c000	/lib/i386-linux-gnu/libpthread-2.27.so
+	0xf778c000-0xf778e000	
+	0xf778e000-0xf7796000	/lib/i386-linux-gnu/librt-2.27.so
+	0xf7796000-0xf7797000	/lib/i386-linux-gnu/librt-2.27.so
+	0xf7797000-0xf7798000	/lib/i386-linux-gnu/librt-2.27.so
+	0xf7798000-0xf796d000	/lib/i386-linux-gnu/libc-2.27.so
+	0xf796d000-0xf796e000	/lib/i386-linux-gnu/libc-2.27.so
+	0xf796e000-0xf7970000	/lib/i386-linux-gnu/libc-2.27.so
+	0xf7970000-0xf7971000	/lib/i386-linux-gnu/libc-2.27.so
+	0xf7971000-0xf7974000	
+	0xf7974000-0xf7977000	/lib/i386-linux-gnu/libdl-2.27.so
+	0xf7977000-0xf7978000	/lib/i386-linux-gnu/libdl-2.27.so
+	0xf7978000-0xf7979000	/lib/i386-linux-gnu/libdl-2.27.so
+	0xf7979000-0xf7ae7000	/usr/lib32/libasan.so.4.0.0
+	0xf7ae7000-0xf7ae9000	/usr/lib32/libasan.so.4.0.0
+	0xf7ae9000-0xf7aec000	/usr/lib32/libasan.so.4.0.0
+	0xf7aec000-0xf7f44000	
+	0xf7f44000-0xf7f61000	
+	0xf7f61000-0xf7f64000	[vvar]
+	0xf7f64000-0xf7f66000	[vdso]
+	0xf7f66000-0xf7f8c000	/lib/i386-linux-gnu/ld-2.27.so
+	0xf7f8c000-0xf7f8d000	/lib/i386-linux-gnu/ld-2.27.so
+	0xf7f8d000-0xf7f8e000	/lib/i386-linux-gnu/ld-2.27.so
+	0xff8e7000-0xff908000	[stack]
+==44611==End of process memory map.
+==44611==AddressSanitizer CHECK failed: ../../../../../src/libsanitizer/sanitizer_common/sanitizer_common.cc:118 "((0 && "unable to mmap")) != (0)" (0x0, 0x0)
+    #0 0xf7a6aeb1  (/usr/lib32/libasan.so.4+0xf1eb1)
+    #1 0xf7a8bf8b in __sanitizer::CheckFailed(char const*, int, char const*, unsigned long long, unsigned long long) (/usr/lib32/libasan.so.4+0x112f8b)
+    #2 0xf7a748da  (/usr/lib32/libasan.so.4+0xfb8da)
+    #3 0xf7a82c78  (/usr/lib32/libasan.so.4+0x109c78)
+    #4 0xf799b9e2  (/usr/lib32/libasan.so.4+0x229e2)
+    #5 0xf7997ec6  (/usr/lib32/libasan.so.4+0x1eec6)
+    #6 0xf7a5ef1c in malloc (/usr/lib32/libasan.so.4+0xe5f1c)
+    #7 0x56f59e03 in xmalloc ../../libiberty/xmalloc.c:148
+    #8 0x56651f4e in disassemble_section ../../binutils/objdump.c:2112
+    #9 0x5688b08c in bfd_map_over_sections ../../bfd/section.c:1395
+    #10 0x5664865b in disassemble_data ../../binutils/objdump.c:2375
+    #11 0x5664865b in dump_bfd ../../binutils/objdump.c:3469
+    #12 0x5664a36e in display_object_bfd ../../binutils/objdump.c:3526
+    #13 0x5664a36e in display_any_bfd ../../binutils/objdump.c:3615
+    #14 0x56633cb7 in display_file ../../binutils/objdump.c:3636
+    #15 0x56633cb7 in main ../../binutils/objdump.c:3919
+    #16 0xf77b0fa0 in __libc_start_main (/lib/i386-linux-gnu/libc.so.6+0x18fa0)
+    #17 0x5663721f  (/home/ubuntu/interger_poc/binutils-2.28.1/afl_ASAN32/bin/objdump+0x7521f)

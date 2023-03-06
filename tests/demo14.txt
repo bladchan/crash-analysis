@@ -1,0 +1,53 @@
+=================================================================
+==1041==ERROR: AddressSanitizer: stack-buffer-underflow on address 0x7ffeb9c111d8 at pc 0x0000006255f3 bp 0x7ffeb9c11180 sp 0x7ffeb9c11178
+READ of size 4 at 0x7ffeb9c111d8 thread T0
+    #0 0x6255f2 in ieee_shr /home/ubuntu/nasm/code1/asm/float.c:612:13
+    #1 0x621642 in to_float /home/ubuntu/nasm/code1/asm/float.c:836:9
+    #2 0x620b9e in float_const /home/ubuntu/nasm/code1/asm/float.c
+    #3 0x55375f in parse_line /home/ubuntu/nasm/code1/asm/parser.c:694:22
+    #4 0x514ec8 in assemble_file /home/ubuntu/nasm/code1/asm/nasm.c:1245:13
+    #5 0x514ec8 in main /home/ubuntu/nasm/code1/asm/nasm.c:453
+    #6 0x7f67c60a3c86 in __libc_start_main /build/glibc-CVJwZb/glibc-2.27/csu/../csu/libc-start.c:310
+    #7 0x41a709 in _start (/home/ubuntu/nasm/code1/nasm+0x41a709)
+
+Address 0x7ffeb9c111d8 is located in stack of thread T0 at offset 24 in frame
+    #0 0x620c4f in to_float /home/ubuntu/nasm/code1/asm/float.c:720
+
+  This frame has 2 object(s):
+    [32, 56) 'mant' (line 721) <== Memory access at offset 24 underflows this variable
+    [96, 100) 'exponent' (line 722)
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism or swapcontext
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-underflow /home/ubuntu/nasm/code1/asm/float.c:612:13 in ieee_shr
+Shadow bytes around the buggy address:
+  0x10005737a1e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10005737a1f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10005737a200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10005737a210: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10005737a220: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x10005737a230: 00 00 00 00 00 00 00 00 f1 f1 f1[f1]00 00 00 f2
+  0x10005737a240: f2 f2 f2 f2 04 f3 f3 f3 00 00 00 00 00 00 00 00
+  0x10005737a250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10005737a260: 00 00 00 00 00 00 00 00 f1 f1 f1 f1 f8 f8 f8 f8
+  0x10005737a270: f2 f2 f2 f2 00 00 f2 f2 f8 f2 f8 f8 f8 f8 f8 f8
+  0x10005737a280: f8 f8 f2 f2 f2 f2 f8 f8 f8 f8 f8 f8 f8 f8 f3 f3
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1041==ABORTING

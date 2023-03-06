@@ -21,6 +21,7 @@ This tool is written in Python, mainly focus on Address sanitizer output. For No
 | container-overflow                 |
 | bad-malloc-usable-size             |
 | calloc-overflow                    |
+| stack-buffer-underflow             |
 
 In the future, we will support more vulnerabilities in ASAN and vulnerabilities in other sanitizers (such as MASN).
 

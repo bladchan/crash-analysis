@@ -6,6 +6,7 @@ from ASAN.others import Unknown_crash, FPE
 from ASAN.overflow import Overflow, OverflowType
 from ASAN.segv import Segv
 from ASAN.uax import UaxType, Uax
+from ASAN.underflow import Underflow, UnderflowType
 from debug import color
 from dict import errors_name
 from undefined import Undefined
@@ -14,6 +15,7 @@ from undefined import Undefined
 class Asan(object):
     def __init__(self):
         self.overflow = []
+        self.underflow = []
         self.segv = []
         self.uax = []
         self.alloc = []
@@ -27,6 +29,7 @@ class Asan(object):
             "global-buffer-overflow": self.__parse_overflow,
             "container-overflow": self.__parse_overflow,
             "calloc-overflow": self.__parse_overflow,
+            "stack-buffer-underflow": self.__parse_underflow,
             "SEGV": self.__parse_segv,
             "out-of-memory": self.__parse_alloc,
             "alloc-dealloc-mismatch": self.__parse_alloc,
@@ -153,6 +156,22 @@ class Asan(object):
                 self.overflow.append(overflow_obj)
             '''
 
+    def __parse_underflow(self, name, text, fname):
+
+        error_type = -1
+
+        if name == "stack-buffer-underflow":
+            error_type = UnderflowType.stack
+
+        assert error_type != -1
+
+        underflow_obj = Underflow(error_type, text, fname)
+
+        if len(self.underflow) == 0:
+            self.underflow.append(underflow_obj)
+        else:
+            self.__handle_new_object(self.underflow, underflow_obj, fname)
+
     def __parse_segv(self, name, text, fname):
 
         assert name == "SEGV"
@@ -206,7 +225,6 @@ class Asan(object):
         error_type = -1
 
         if name == 'heap-use-after-free':
-
             error_type = UaxType.heap_use_after_free
 
         assert error_type != -1
@@ -288,6 +306,32 @@ class Asan(object):
                 self.print_info(overflow_obj, padding)
 
                 if idx != len(self.overflow) - 1:
+                    print("-" * 100)
+
+                idx += 1
+
+        if print_flag:
+            print("*" * 100)
+            print("*" * 100)
+
+        print_flag = False
+
+        if len(self.underflow) != 0:
+            print_flag = True
+            idx = 0
+
+            print(f"{color.PURPLE}Different underflow: {len(self.underflow)}{color.END}")
+            while idx < len(self.underflow):
+
+                underflow_obj = self.underflow[idx]
+
+                print(f"No.{idx + 1} ==> Type: {color.RED}{underflow_obj.error_type.name}_underflow{color.END}")
+                padding = " " * len(f"No.{idx + 1} ==> ")
+                print(padding + f"Operate: {color.BLUE}" + ("READ" if underflow_obj.operation == 0 else "WRITE")
+                      + f"{color.END}")
+                self.print_info(underflow_obj, padding)
+
+                if idx != len(self.underflow) - 1:
                     print("-" * 100)
 
                 idx += 1
@@ -398,10 +442,6 @@ class Asan(object):
 
                 idx += 1
 
-        if print_flag:
-            print("*" * 100)
-            print("*" * 100)
-
     def save(self):
 
         save_path = "output_asan_" + str(int(datetime.datetime.now().timestamp()))
@@ -409,6 +449,7 @@ class Asan(object):
 
         error_type = {
             'Overflow': self.overflow,
+            'Underflow': self.underflow,
             "SEGV": self.segv,
             "Uax": self.uax,
             "Alloc": self.alloc,
@@ -429,6 +470,8 @@ class Asan(object):
                 dir_n = ""
                 if obj.__class__.__name__ == 'Overflow':
                     dir_n = f"#{idx}-{obj.error_type.name}_overflow"
+                elif obj.__class__.__name__ == 'Underflow':
+                    dir_n = f"#{idx}-{obj.error_type.name}_underflow"
                 elif obj.__class__.__name__ == 'Segv':
                     dir_n = f"#{idx}-segv"
                 elif obj.__class__.__name__ == 'Alloc':
