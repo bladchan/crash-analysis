@@ -90,6 +90,9 @@ if __name__ == '__main__':
                         assertion_fail.append(file_path)
                     else:
                         error_text = error_text[error_text.find(prefix):error_text.find(suffix) + len(suffix) - 1]
+                        if len(error_text) == 0:
+                            # any elegant processing?
+                            error_text = error_text[error_text.find("ERROR: AddressSanitizer"):-1]
                         record.add(error_text, file)
 
     else:
@@ -144,6 +147,9 @@ if __name__ == '__main__':
                             assertion_fail.append(file_path)
                         else:
                             error_text = error_text[error_text.find(prefix):error_text.find(suffix) + len(suffix) - 1]
+                            if len(error_text) == 0:
+                                # any elegant processing?
+                                error_text = error_text[error_text.find("ERROR: AddressSanitizer"):-1]
                             record.add(error_text, file)
                 else:
                     print(f"File {file_path} seems not to lead crashing?")
