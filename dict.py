@@ -16,6 +16,7 @@ errors_name = {
         "SEGV",                             # --> Class: segv
         "stack-buffer-overflow",            # --> Class: overflow
         "stack-buffer-underflow",           # --> Class: underflow
+        "stack-overflow",                   # --> Class: overflow
         "stack-use-after-return",           # --> Class: uax
         "stack-use-after-scope",            # --> Class: uax
         # "strncat-param-overlap",

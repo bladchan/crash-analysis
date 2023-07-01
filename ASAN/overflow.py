@@ -13,11 +13,12 @@ from callstack import Callstack
 
 class OverflowType(Enum):
     heap = 1
-    stack = 2
+    stack_buffer = 2
     dynamic_stack = 3
     global_buffer = 4
     container = 5
     calloc = 6
+    stack = 7
 
 
 class Overflow(object):

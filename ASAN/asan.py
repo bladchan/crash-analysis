@@ -25,6 +25,7 @@ class Asan(object):
         self.parseFunctions = {
             "heap-buffer-overflow": self.__parse_overflow,
             "stack-buffer-overflow": self.__parse_overflow,
+            "stack-overflow": self.__parse_overflow,
             "dynamic-stack-buffer-overflow": self.__parse_overflow,
             "global-buffer-overflow": self.__parse_overflow,
             "container-overflow": self.__parse_overflow,
@@ -109,7 +110,7 @@ class Asan(object):
 
         elif name == "stack-buffer-overflow":
 
-            error_type = OverflowType.stack
+            error_type = OverflowType.stack_buffer
 
         elif name == "dynamic-stack-buffer-overflow":
 
@@ -126,6 +127,10 @@ class Asan(object):
         elif name == "calloc-overflow":
 
             error_type = OverflowType.calloc
+
+        elif name == "stack-overflow":
+
+            error_type = OverflowType.stack
 
         assert error_type != -1
 

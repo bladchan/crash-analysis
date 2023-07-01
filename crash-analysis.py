@@ -14,7 +14,7 @@ if __name__ == '__main__':
     usage = "1. crash-analysis.py -d crashed_dir -m default -s asan \"target_prog @@\" \n       " \
             "2. crash-analysis.py -d crashed_dir -m network -s asan -r \"tcpreplay ...\" " \
             "\"network_prog -p 1080 ...\""
-    optParser = OptionParser(usage, version="%prog 1.0")
+    optParser = OptionParser(usage, version="%prog 1.1")
 
     optParser.add_option('-d', '--dir', type="string", dest='dir',
                          help="The directory of testcases which caused the target crash")
