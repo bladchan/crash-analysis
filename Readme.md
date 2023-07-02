@@ -6,6 +6,7 @@ This tool is written in Python, mainly focus on Address sanitizer output. For No
 | ---------------------------------- |
 | heap-buffer-overflow               |
 | stack-buffer-overflow              |
+| stack-overflow                     |
 | dynamic-stack-buffer-overflow      |
 | global-buffer-overflow             |
 | container-overflow                 |

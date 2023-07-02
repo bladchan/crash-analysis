@@ -3,6 +3,7 @@ import subprocess
 import sys
 import time
 from optparse import OptionParser
+from pathlib import Path
 
 from ASAN.asan import Asan
 from dict import sanitizer_name
@@ -24,6 +25,8 @@ if __name__ == '__main__':
                          dest='cmd', help="Specify the replay application and options and send packets to target")
     optParser.add_option('-s', '--sanitizer', type="string", dest="sanitizer",
                          default="asan", help="Sanitizer which you instrument in target")
+    optParser.add_option('-o', '--output', type="string", dest='outdir',
+                         help="The saving directory of the analysis output")
 
     option, args = optParser.parse_args(args)
 
@@ -38,6 +41,16 @@ if __name__ == '__main__':
 
     sanitizer = sanitizer_name.get(option.sanitizer)
     assert sanitizer
+
+    if option.outdir is not None:
+        output_dir = option.outdir
+        output_dir.strip()
+        p_obj = Path(output_dir)
+        try:
+            p_obj.mkdir()
+        except Exception as e:
+            print(e)
+            exit(-1)
 
     record = None
 

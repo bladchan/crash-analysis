@@ -1,5 +1,6 @@
 import datetime
 import os
+from pathlib import Path
 
 from ASAN.alloc import AllocType, Alloc
 from ASAN.others import Unknown_crash, FPE
@@ -447,10 +448,14 @@ class Asan(object):
 
                 idx += 1
 
-    def save(self):
+    def save(self, path=None):
 
-        save_path = "output_asan_" + str(int(datetime.datetime.now().timestamp()))
-        os.mkdir(save_path)
+        if not path:
+            save_path = "output_asan_" + str(int(datetime.datetime.now().timestamp()))
+            os.mkdir(save_path)
+        else:
+            assert path.exists()
+            save_path = path
 
         error_type = {
             'Overflow': self.overflow,
