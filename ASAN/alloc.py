@@ -1,6 +1,7 @@
 from enum import Enum
 
 from callstack import Callstack
+from config import FUNCTION_SIMILAR, LOCATION_SIMILAR
 
 
 class AllocType(Enum):
@@ -33,7 +34,7 @@ class Alloc(object):
             # same stack (location may not same due to '-g' flag)
             return 0
 
-        if f_score > 0.9 and l_score > 0.9:
+        if f_score > FUNCTION_SIMILAR and l_score > LOCATION_SIMILAR:
             # possible same
             return 1
 

@@ -1,6 +1,5 @@
 import datetime
 import os
-from pathlib import Path
 
 from ASAN.alloc import AllocType, Alloc
 from ASAN.others import Unknown_crash, FPE

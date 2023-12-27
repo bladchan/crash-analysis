@@ -43,8 +43,8 @@ class Callstack(object):
         if self.size == callstack.size:
             # high possibility the same callstack
             for i in range(0, self.size):
-                f_score += difflib.SequenceMatcher(None, self.stack[i][1], callstack.stack[i][1]).quick_ratio()
-                l_score += difflib.SequenceMatcher(None, self.stack[i][2], callstack.stack[i][2]).quick_ratio()
+                f_score += difflib.SequenceMatcher(None, self.stack[i][1], callstack.stack[i][1]).ratio()
+                l_score += difflib.SequenceMatcher(None, self.stack[i][2], callstack.stack[i][2]).ratio()
 
             f_score = f_score / self.size
             l_score = l_score / self.size
@@ -56,8 +56,8 @@ class Callstack(object):
             j = callstack.size - 1
 
             while i >= 0 and j >= 0:
-                f_score += difflib.SequenceMatcher(None, self.stack[i][1], callstack.stack[j][1]).quick_ratio()
-                l_score += difflib.SequenceMatcher(None, self.stack[i][2], callstack.stack[j][2]).quick_ratio()
+                f_score += difflib.SequenceMatcher(None, self.stack[i][1], callstack.stack[j][1]).ratio()
+                l_score += difflib.SequenceMatcher(None, self.stack[i][2], callstack.stack[j][2]).ratio()
 
                 i -= 1
                 j -= 1

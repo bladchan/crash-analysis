@@ -1,4 +1,5 @@
 from callstack import Callstack
+from config import FUNCTION_SIMILAR, LOCATION_SIMILAR
 
 
 class Unknown_crash(object):
@@ -23,7 +24,7 @@ class Unknown_crash(object):
             # same stack (location may not same due to '-g' flag)
             return 0
 
-        if f_score > 0.9 and l_score > 0.9:
+        if f_score > FUNCTION_SIMILAR and l_score > LOCATION_SIMILAR:
             # possible same
             return 1
 
@@ -48,7 +49,7 @@ class FPE(object):
             # same stack (location may not same due to '-g' flag)
             return 0
 
-        if f_score > 0.9 and l_score > 0.9:
+        if f_score > FUNCTION_SIMILAR and l_score > LOCATION_SIMILAR:
             # possible same
             return 1
 
